@@ -1,0 +1,69 @@
+name: mind_assistant
+description: "A new Flutter project."
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  get: ^4.6.6
+  google_fonts: ^6.2.1
+  flutter_slidable: ^3.1.1
+  shared_preferences: ^2.3.2
+  intl: ^0.19.0
+  flutter_quill: ^10.8.5
+  uuid: ^4.5.1
+  timezone: ^0.9.4
+  flutter_timezone: ^3.0.1
+  flutter_local_notifications: ^17.2.2
+  permission_handler: ^11.3.1
+  change_app_package_name: ^1.4.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: 4.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/images/
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter_18pt-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Inter_18pt-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Inter_18pt-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Inter_24pt-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Inter_24pt-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter_18pt-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter_18pt-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Inter_18pt-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Inter_18pt-Black.ttf
+          weight: 900
+
+flutter_assets:
+  assets_path: assets/images/
+  output_path: lib/constants/
+  filename: app_images.dart
+  field_prefix: ""
