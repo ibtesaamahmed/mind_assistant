@@ -15,11 +15,11 @@ import 'package:uuid/uuid.dart';
 
 class AddNewBacklogScreen extends StatefulWidget {
   AddNewBacklogScreen({
-    required this.listTitleText,
+    // required this.listTitleText,
     required this.index,
     super.key,
   });
-  final String listTitleText;
+  // final String listTitleText;
   final int index;
 
   @override
@@ -27,19 +27,20 @@ class AddNewBacklogScreen extends StatefulWidget {
 }
 
 class _AddNewBacklogScreenState extends State<AddNewBacklogScreen> {
-  final backlogTitleController = TextEditingController();
-
-  final backlogSubTitleController = TextEditingController();
+  final listTitleController = TextEditingController();
+  final backlogWhoController = TextEditingController();
+  final backlogWhyController = TextEditingController();
   @override
   void dispose() {
     super.dispose();
-    backlogTitleController.dispose();
-    backlogSubTitleController.dispose();
+    listTitleController.dispose();
+    backlogWhoController.dispose();
+    backlogWhyController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    backlogController.listTitleController.text = widget.listTitleText;
+    // backlogController.listTitleController.text = widget.listTitleText;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: Get.width * 0.3,
@@ -72,8 +73,9 @@ class _AddNewBacklogScreenState extends State<AddNewBacklogScreen> {
         actions: [
           TextButton(
             onPressed: () async {
-              if (backlogTitleController.text.trim().isEmpty ||
-                  backlogSubTitleController.text.trim().isEmpty) {
+              if (backlogWhoController.text.trim().isEmpty ||
+                  backlogWhyController.text.trim().isEmpty ||
+                  listTitleController.text.trim().isEmpty) {
                 CustomSnackBars.instance.showFailureSnackbar(
                   title: 'Missing Fields',
                   message: 'Kindly fill all fields',
@@ -82,8 +84,9 @@ class _AddNewBacklogScreenState extends State<AddNewBacklogScreen> {
               } else if (backlogController.isAutoDelete.value) {
                 final backlogItem = BacklogItemModel(
                   id: const Uuid().v4(),
-                  title: backlogTitleController.text.trim(),
-                  subTitle: backlogSubTitleController.text.trim(),
+                  title: listTitleController.text.trim(),
+                  who: backlogWhoController.text.trim(),
+                  why: backlogWhyController.text.trim(),
                   isAutoDelete: backlogController.isAutoDelete.value,
                   endDate: backlogController.endDate.value,
                   createdAt: DateTime.now(),
@@ -92,23 +95,26 @@ class _AddNewBacklogScreenState extends State<AddNewBacklogScreen> {
                     index: widget.index, backlogItem: backlogItem);
                 await NotificationService.instance
                     .scheduleBacklogNotificationBefore(backlogItem.endDate!);
-                backlogTitleController.clear();
-                backlogSubTitleController.clear();
+                backlogWhoController.clear();
+                backlogWhyController.clear();
+                listTitleController.clear();
                 backlogController.isAutoDelete.value = false;
                 backlogController.endDate.value = DateTime.now();
                 Get.back();
               } else {
                 final backlogItem = BacklogItemModel(
                   id: const Uuid().v4(),
-                  title: backlogTitleController.text.trim(),
-                  subTitle: backlogSubTitleController.text.trim(),
+                  title: listTitleController.text.trim(),
+                  who: backlogWhoController.text.trim(),
+                  why: backlogWhyController.text.trim(),
                   isAutoDelete: backlogController.isAutoDelete.value,
                   createdAt: DateTime.now(),
                 );
                 backlogController.addBacklogItem(
                     index: widget.index, backlogItem: backlogItem);
-                backlogTitleController.clear();
-                backlogSubTitleController.clear();
+                listTitleController.clear();
+                backlogWhoController.clear();
+                backlogWhyController.clear();
                 backlogController.isAutoDelete.value = false;
                 backlogController.endDate.value = DateTime.now();
                 Get.back();
@@ -135,10 +141,10 @@ class _AddNewBacklogScreenState extends State<AddNewBacklogScreen> {
               physics: const BouncingScrollPhysics(),
               children: [
                 CustomTextField(
-                  readOnly: true,
-                  controller: backlogController.listTitleController,
+                  readOnly: false,
+                  controller: listTitleController,
                   cursorColor: color,
-                  hintText: '',
+                  hintText: 'Backlog Name',
                   hintTextStyle: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 34,
@@ -164,7 +170,7 @@ class _AddNewBacklogScreenState extends State<AddNewBacklogScreen> {
                     const SizedBox(width: 25),
                     Flexible(
                       child: CustomBorderlessTextField(
-                        controller: backlogTitleController,
+                        controller: backlogWhoController,
                         hintTextStyle: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 17,
@@ -199,7 +205,7 @@ class _AddNewBacklogScreenState extends State<AddNewBacklogScreen> {
                     const SizedBox(width: 25),
                     Flexible(
                       child: CustomBorderlessTextField(
-                        controller: backlogSubTitleController,
+                        controller: backlogWhyController,
                         hintTextStyle: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 17,

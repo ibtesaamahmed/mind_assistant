@@ -31,7 +31,8 @@ class BacklogModel {
 class BacklogItemModel {
   String id;
   String title;
-  String subTitle;
+  String who;
+  String why;
   bool isAutoDelete;
   DateTime createdAt;
   DateTime? endDate;
@@ -39,7 +40,8 @@ class BacklogItemModel {
   BacklogItemModel({
     required this.id,
     required this.title,
-    required this.subTitle,
+    required this.who,
+    required this.why,
     required this.isAutoDelete,
     required this.createdAt,
     this.endDate,
@@ -49,7 +51,8 @@ class BacklogItemModel {
     return <String, dynamic>{
       'id': id,
       'title': title,
-      'subTitle': subTitle,
+      'who': who,
+      'why': why,
       'isAutoDelete': isAutoDelete,
       'createdAt': createdAt.toIso8601String(),
       'endDate': endDate?.toIso8601String(),
@@ -60,7 +63,8 @@ class BacklogItemModel {
     return BacklogItemModel(
       id: map['id'],
       title: map['title'],
-      subTitle: map['subTitle'],
+      who: map['who'],
+      why: map['why'],
       isAutoDelete: map['isAutoDelete'],
       createdAt: map['createdAt'] != null
           ? DateTime.parse(map['createdAt'])

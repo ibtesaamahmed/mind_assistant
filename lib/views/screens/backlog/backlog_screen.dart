@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:mind_assistant/config/theme/theme_functions.dart';
 import 'package:mind_assistant/constants/app_colors.dart';
@@ -45,9 +46,8 @@ class _BacklogScreenState extends State<BacklogScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              backlogController.listTitleController.clear();
               Get.to(
-                () => const AddNewListScreen(),
+                () => AddNewListScreen(),
                 transition: Transition.rightToLeft,
               );
             },
@@ -78,8 +78,8 @@ class _BacklogScreenState extends State<BacklogScreen> {
                           onAddBacklogTap: () {
                             Get.to(
                               () => AddNewBacklogScreen(
-                                  listTitleText:
-                                      backlogController.backLogs[index].title,
+                                  // listTitleText:
+                                  //     backlogController.backLogs[index].title,
                                   index: index),
                               transition: Transition.rightToLeft,
                             );

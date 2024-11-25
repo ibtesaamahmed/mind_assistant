@@ -11,16 +11,13 @@ import 'package:mind_assistant/services/notification/notification_service.dart';
 import 'package:mind_assistant/utils/snackbars.dart';
 import 'package:mind_assistant/views/widgets/custom_textfield_widget.dart';
 import 'package:mind_assistant/views/widgets/my_text_widget.dart';
-import 'package:uuid/uuid.dart';
 
 class EditBacklogScreen extends StatefulWidget {
   EditBacklogScreen({
     required this.backlogItem,
-    required this.listTitleText,
     required this.index,
     super.key,
   });
-  final String listTitleText;
   final int index;
   final BacklogItemModel backlogItem;
 
@@ -29,14 +26,15 @@ class EditBacklogScreen extends StatefulWidget {
 }
 
 class _EditBacklogScreenState extends State<EditBacklogScreen> {
-  final backlogTitleController = TextEditingController();
-
-  final backlogSubTitleController = TextEditingController();
+  final listTitleController = TextEditingController();
+  final backlogWhoController = TextEditingController();
+  final backlogWhyController = TextEditingController();
   @override
   void initState() {
     super.initState();
-    backlogTitleController.text = widget.backlogItem.title;
-    backlogSubTitleController.text = widget.backlogItem.subTitle;
+    listTitleController.text = widget.backlogItem.title;
+    backlogWhoController.text = widget.backlogItem.who;
+    backlogWhyController.text = widget.backlogItem.why;
     backlogController.isAutoDelete.value = widget.backlogItem.isAutoDelete;
     if (widget.backlogItem.isAutoDelete) {
       backlogController.endDate.value = widget.backlogItem.endDate!;
@@ -46,13 +44,13 @@ class _EditBacklogScreenState extends State<EditBacklogScreen> {
   @override
   void dispose() {
     super.dispose();
-    backlogTitleController.dispose();
-    backlogSubTitleController.dispose();
+    listTitleController.dispose();
+    backlogWhoController.dispose();
+    backlogWhyController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    backlogController.listTitleController.text = widget.listTitleText;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: Get.width * 0.3,
@@ -85,8 +83,9 @@ class _EditBacklogScreenState extends State<EditBacklogScreen> {
         actions: [
           TextButton(
             onPressed: () async {
-              if (backlogTitleController.text.trim().isEmpty ||
-                  backlogSubTitleController.text.trim().isEmpty) {
+              if (listTitleController.text.trim().isEmpty ||
+                  backlogWhoController.text.trim().isEmpty ||
+                  backlogWhyController.text.trim().isEmpty) {
                 CustomSnackBars.instance.showFailureSnackbar(
                   title: 'Missing Fields',
                   message: 'Kindly fill all fields',
@@ -95,8 +94,9 @@ class _EditBacklogScreenState extends State<EditBacklogScreen> {
               } else if (backlogController.isAutoDelete.value) {
                 final backlogItem = BacklogItemModel(
                   id: widget.backlogItem.id,
-                  title: backlogTitleController.text.trim(),
-                  subTitle: backlogSubTitleController.text.trim(),
+                  title: listTitleController.text.trim(),
+                  who: backlogWhoController.text.trim(),
+                  why: backlogWhyController.text.trim(),
                   isAutoDelete: backlogController.isAutoDelete.value,
                   endDate: backlogController.endDate.value,
                   createdAt: widget.backlogItem.createdAt,
@@ -111,8 +111,9 @@ class _EditBacklogScreenState extends State<EditBacklogScreen> {
               } else {
                 final backlogItem = BacklogItemModel(
                   id: widget.backlogItem.id,
-                  title: backlogTitleController.text.trim(),
-                  subTitle: backlogSubTitleController.text.trim(),
+                  title: listTitleController.text.trim(),
+                  who: backlogWhoController.text.trim(),
+                  why: backlogWhyController.text.trim(),
                   isAutoDelete: backlogController.isAutoDelete.value,
                   createdAt: widget.backlogItem.createdAt,
                 );
@@ -144,8 +145,8 @@ class _EditBacklogScreenState extends State<EditBacklogScreen> {
               physics: const BouncingScrollPhysics(),
               children: [
                 CustomTextField(
-                  readOnly: true,
-                  controller: backlogController.listTitleController,
+                  readOnly: false,
+                  controller: listTitleController,
                   cursorColor: color,
                   hintText: '',
                   hintTextStyle: TextStyle(
@@ -173,7 +174,7 @@ class _EditBacklogScreenState extends State<EditBacklogScreen> {
                     const SizedBox(width: 25),
                     Flexible(
                       child: CustomBorderlessTextField(
-                        controller: backlogTitleController,
+                        controller: backlogWhoController,
                         hintTextStyle: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 17,
@@ -208,7 +209,7 @@ class _EditBacklogScreenState extends State<EditBacklogScreen> {
                     const SizedBox(width: 25),
                     Flexible(
                       child: CustomBorderlessTextField(
-                        controller: backlogSubTitleController,
+                        controller: backlogWhyController,
                         hintTextStyle: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 17,

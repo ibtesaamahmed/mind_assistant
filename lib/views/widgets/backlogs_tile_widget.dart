@@ -22,36 +22,54 @@ class BacklogsTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            MyText(
-              text: backlog.title,
-              weight: FontWeight.w500,
-              size: 21,
-            ),
-            ElevatedButton(
-              onPressed: onAddBacklogTap,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: kBlueColor,
+        Slidable(
+          endActionPane: ActionPane(
+            extentRatio: 2 / 8,
+            motion: const ScrollMotion(),
+            children: [
+              SlidableAction(
+                onPressed: (_) {
+                  backlogController.deleteBacklog(id: backlog.id);
+                },
+                backgroundColor: kRedColor,
+                icon: Icons.delete,
               ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.add_circle,
-                    color: kWhiteColor,
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              MyText(
+                text: backlog.title,
+                weight: FontWeight.w500,
+                size: 21,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ElevatedButton(
+                  onPressed: onAddBacklogTap,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kBlueColor,
                   ),
-                  MyText(
-                    text: 'Backlog',
-                    color: kWhiteColor,
-                    weight: FontWeight.w400,
-                    paddingLeft: 4,
-                    size: 15,
-                  )
-                ],
-              ),
-            )
-          ],
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.add_circle,
+                        color: kWhiteColor,
+                      ),
+                      MyText(
+                        text: 'Backlog',
+                        color: kWhiteColor,
+                        weight: FontWeight.w400,
+                        paddingLeft: 4,
+                        size: 15,
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
         const SizedBox(height: 15),
         Divider(
@@ -84,11 +102,6 @@ class BacklogItemTile extends StatelessWidget {
           Get.to(
             () => EditBacklogScreen(
               backlogItem: backlogItem,
-              listTitleText: backlogController.backLogs
-                  .firstWhere(
-                    (element) => element.id == backlogId,
-                  )
-                  .title,
               index: backlogController.backLogs.indexWhere(
                 (element) => element.id == backlogId,
               ),

@@ -10,8 +10,21 @@ import 'package:mind_assistant/views/widgets/custom_textfield_widget.dart';
 import 'package:mind_assistant/views/widgets/my_text_widget.dart';
 import 'package:uuid/uuid.dart';
 
-class AddNewListScreen extends StatelessWidget {
-  const AddNewListScreen({super.key});
+class AddNewListScreen extends StatefulWidget {
+  AddNewListScreen({super.key});
+
+  @override
+  State<AddNewListScreen> createState() => _AddNewListScreenState();
+}
+
+class _AddNewListScreenState extends State<AddNewListScreen> {
+  final listTitleController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    listTitleController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,10 +59,10 @@ class AddNewListScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              if (backlogController.listTitleController.text.isNotEmpty) {
+              if (listTitleController.text.isNotEmpty) {
                 final backlog = BacklogModel(
                     id: const Uuid().v4(),
-                    title: backlogController.listTitleController.text,
+                    title: listTitleController.text,
                     backlogItems: []);
                 backlogController.addBacklogList(backlog: backlog);
                 Get.back();
@@ -75,7 +88,7 @@ class AddNewListScreen extends StatelessWidget {
 
             return CustomTextField(
               readOnly: false,
-              controller: backlogController.listTitleController,
+              controller: listTitleController,
               cursorColor: color,
               hintText: 'Backlog List Title',
               hintTextStyle: TextStyle(

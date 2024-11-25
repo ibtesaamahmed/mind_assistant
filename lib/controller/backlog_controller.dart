@@ -7,7 +7,7 @@ import 'package:mind_assistant/services/local%20storage/local_storage_service.da
 
 class BacklogController extends GetxController {
   final _localStorageService = LocalStorageService.instance;
-  final listTitleController = TextEditingController();
+  // final listTitleController = TextEditingController();
   RxList<BacklogModel> backLogs = <BacklogModel>[].obs;
   RxList<ScheduleNotificationModel> backLogNotifications =
       <ScheduleNotificationModel>[].obs;
@@ -15,6 +15,15 @@ class BacklogController extends GetxController {
   Rx<DateTime> endDate = DateTime.now().obs;
   addBacklogList({required BacklogModel backlog}) async {
     backLogs.add(backlog);
+    await _localStorageService.writeBacklogList(backLogs);
+    update();
+  }
+
+  deleteBacklog({required String id}) async {
+    final index = backLogs.indexWhere(
+      (backlog) => backlog.id == id,
+    );
+    backLogs.removeAt(index);
     await _localStorageService.writeBacklogList(backLogs);
     update();
   }
