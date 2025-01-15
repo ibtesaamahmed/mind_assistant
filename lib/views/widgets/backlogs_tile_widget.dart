@@ -75,14 +75,18 @@ class BacklogsTileWidget extends StatelessWidget {
         Divider(
           color: Colors.grey.withOpacity(0.5),
         ),
-        ListView.builder(
-          itemCount: backlog.backlogItems.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) => BacklogItemTile(
-            backlogItem: backlog.backlogItems[index],
-            backlogId: backlog.id,
+        SingleChildScrollView(
+          child: ListView.builder(
+            itemCount: backlog.backlogItems.length,
+            shrinkWrap: true,
+            physics:
+                const NeverScrollableScrollPhysics(), // Prevent inner ListView from scrolling
+            itemBuilder: (context, index) => BacklogItemTile(
+              backlogItem: backlog.backlogItems[index],
+              backlogId: backlog.id,
+            ),
           ),
-        )
+        ),
       ],
     );
   }
