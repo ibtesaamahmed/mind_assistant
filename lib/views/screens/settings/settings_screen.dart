@@ -136,6 +136,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 body:
                     'Create the tasks you want to accomplish and progress them as you complete them. This will help you see how many tasks you have to complete, how many are in the works, how many you have completed, and help you distribute your workload wisely.',
               ),
+              const SizedBox(height: 20),
+              const _DescriptionTile(
+                imagePath: Assets.imagesBacklogBig,
+                title: 'Backlog',
+                body:
+                    'How often have you written down someone\'s advice, for example, to watch a certain movie? And how often have you watched it or been satisfied with it? Keeping a proper backlog will help you filter out tips and obsessions, give yourself a limited time to implement them, or remember that you haven\'t been able to go to a recommended place in a year and determine why that\'s the case.',
+              ),
             ],
           ),
         ),
